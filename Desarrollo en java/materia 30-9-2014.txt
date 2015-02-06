@@ -1,0 +1,70 @@
+Servlet /controlador/calcular
+----------------------------------------------------------------------------------------------
+ protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        PrintWriter out = response.getWriter();
+        
+        
+         int result=0;       
+        int n1 = Integer.parseInt(request.getParameter("n1"));
+        int n2 = Integer.parseInt(request.getParameter("n2"));        
+        String op = request.getParameter("op");
+        if(op!=null){
+        if(op.equals("restar")){
+            
+            out.println("Se seleccionó restar");
+            
+            result=(n1-n2);
+        }
+        else if(op.equals("sumar")){
+            
+            out.println("Se seleccionó sumar");
+            result=(n1+n2);
+        }
+        else if(op.equals("dividir")){
+            if(n1>0 && n2>0){
+                out.println("Se seleccionó dividir");
+            result=(n1/n2);           
+              }
+            else{
+                out.println("no se puede dividir por 0");
+            
+            }
+            
+        }
+       else {
+            
+            out.println("Se seleccionó multiplicar");
+            result=(n1*n2);
+        }
+        request.getRequestDispatcher("resultado.jsp?valor="+result+"").forward(request,response);
+        }
+    }
+----------------------------------------------------------------------------------
+
+webpages/resultado
+
+  <h1>El resultado es: <%= request.getParameter("valor")%> </h1>
+
+----------------------------------------------------------------------------------
+
+webpages/index
+
+
+ <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+    </head>
+    <body>
+        <h1>Calcular</h1>
+        <form method="post" action="Calcular">
+        
+            Sumar <input type="radio" name="op" value="sumar"  >
+            Restar <input type="radio" name="op" value="restar" >
+            Dividir <input type="radio" name="op" value="dividir" >
+            Multiplicar <input type="radio" name="op" value="multiplicar" >
+        <br><br>
+        n1<input type="text" name="n1" />
+        n2<input type="text" name="n2" />
+        <input type="submit" value="Calcular" />
